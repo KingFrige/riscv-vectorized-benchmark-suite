@@ -828,13 +828,32 @@ void particleFilter_vector(int * I, int IszX, int IszY, int Nfr, int * seed, lon
             for(j = 0; j < Nparticles; j++){    
                 xCDF = _MM_SET_f64(CDF[j],gvl);
                 xComp = _MM_VFGE_f64(xCDF,xU,gvl);
-                xComp = _MM_CAST_i1_i64(_MM_XOR_i64(_MM_CAST_i64_i1(xComp),xMask,gvl));
+
+                //_MM_CAST_i64_i1(xComp)
+                long int sxComp;
+                _MMR_i64 lxComp;
+                _MM_STORE_b64(&sxComp, xComp, 1);
+                lxComp = _MM_LOAD_i64(&sxComp, 1);
+                lxComp = _MM_XOR_i64(lxComp,xMask,gvl);
+
+                //_MM_CAST_i1_i64
+                _MM_STORE_i64(&sxComp, lxComp, 1);
+                xComp = _MM_LOAD_b64(&sxComp, 1);
+
                 valid = _MM_VMFIRST_i64(xComp,gvl);
                 if(valid != -1)
                 {
                     xArray = _MM_MERGE_i64(xArray,_MM_SET_i64(j,gvl),xComp,gvl);
-                    xMask = _MM_OR_i64(_MM_CAST_i64_i1(xComp),xMask,gvl);
-                    vector_complete = _MM_VMPOPC_i64(_MM_CAST_i1_i64(xMask),gvl);
+
+                    //xMask = _MM_OR_i64(_MM_CAST_i64_i1(xComp),xMask,gvl);
+                    _MM_STORE_b64(&sxComp, xComp, 1);
+                    lxComp = _MM_LOAD_i64(&sxComp, 1);
+                    xMask = _MM_OR_i64(lxComp,xMask,gvl);
+
+                    //_MM_CAST_i1_i64(xMask)
+                    _MM_STORE_i64(&sxComp, xMask, 1);
+                    _MMR_MASK_i64 lxMask = _MM_LOAD_b64(&sxComp, 1);
+                    vector_complete = _MM_VMPOPC_i64(lxMask,gvl);
                 }
                 if(vector_complete == gvl){ break; }
                 //FENCE();
