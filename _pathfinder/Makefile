@@ -29,4 +29,4 @@ runspike-vector:
 	$(SPIKE) --isa=rv64gcv $(PK) $(vector_target) 32 32 out
 
 clean:
-	rm bin/*
+	rm -f bin/*

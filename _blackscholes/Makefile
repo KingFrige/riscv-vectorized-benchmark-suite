@@ -29,5 +29,4 @@ runspike-vector:
 	$(SPIKE) --isa=rv64gcv $(PK) $(vector_target) 1 ./input/in_64K.input prices.txt
 
 clean:
-	rm bin/*.dump; \
-	rm bin/*.exe;
+	rm -f bin/*
