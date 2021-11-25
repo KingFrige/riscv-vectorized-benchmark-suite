@@ -677,7 +677,7 @@ float dist(Point p1, Point p2, int dim )
     result1   = _MM_MACC_f32(result1,_diff,_diff,gvl);
   }
   result2 = _MM_REDSUM_f32(result1,result2,gvl);
-  result = _MM_VGETFIRST_f32(result2,gvl);
+  result = _MM_VGETFIRST_f32(result2);
   FENCE();
   //printf("result = %f \n",result);
   return result;
