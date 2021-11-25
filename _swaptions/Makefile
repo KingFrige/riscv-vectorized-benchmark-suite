@@ -36,6 +36,10 @@ vector:
 	${LLVM}/bin/llvm-objdump  --mattr=+m,+f,+d,+a,+c,+experimental-v -ds $(vector_target) > bin/swaptions_vector.dump ; \
 	rm src/*.o ;
 
+host:
+
+copy:
+
 runspike-serial:
 	$(SPIKE) --isa=rv64gcv $(PK) $(serial_target) -ns 8 -sm 512 -nt 1
 

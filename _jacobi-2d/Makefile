@@ -30,6 +30,8 @@ host:
 	rm src/*.o; \
 	objdump -dC $(host_target) > bin/jacobi-2d_host.dump ;
 
+copy:
+
 clean:
 	rm -f bin/*
 

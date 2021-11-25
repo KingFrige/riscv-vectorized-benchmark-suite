@@ -26,6 +26,9 @@ vector:
 	rm src/*.o
 	${LLVM}/bin/llvm-objdump  --mattr=+m,+f,+d,+a,+c,+experimental-v -ds $(vector_target) > bin/particlefilter_vector.dump
 
+host:
+
+copy:
 
 runspike-serial:
 	$(SPIKE) --isa=rv64gcv $(PK) $(serial_target) -x 128 -y 128 -z 2 -np 256

@@ -10,6 +10,8 @@ PK := pk
 serial_target = bin/axpy_serial.exe
 vector_target = bin/axpy_vector.exe
 
+start:
+
 serial:
 	echo "serial"
 	${LLVM}/bin/clang++ -Wall --target=riscv64-unknown-elf -march=rv64gv0p10zfh0p1 -menable-experimental-extensions -mllvm -riscv-v-vector-bits-min=128 -O2  -fno-vectorize --sysroot=$(SYSROOT_DIR) --gcc-toolchain=$(GCC_TOOLCHAIN_DIR) -c -o src/axpy_serial.o src/axpy.c
@@ -27,6 +29,10 @@ vector:
 	${LLVM}/bin/clang++ --target=riscv64-unknown-elf -DUSE_RISCV_VECTOR -march=rv64gv0p10zfh0p1 -menable-experimental-extensions -mllvm -riscv-v-vector-bits-min=128  -O2  -fno-vectorize --sysroot=$(SYSROOT_DIR) --gcc-toolchain=$(GCC_TOOLCHAIN_DIR) -o $(vector_target) src/*.o -lm
 	rm src/*.o
 	${LLVM}/bin/llvm-objdump  --mattr=+m,+f,+d,+a,+c,+experimental-v -ds $(vector_target) > bin/axpy_vector.dump
+
+host:
+
+copy:
 
 runspike-serial:
 	$(SPIKE) --isa=rv64gcv $(PK) $(serial_target) 256

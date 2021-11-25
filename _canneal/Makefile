@@ -32,6 +32,10 @@ vector:
 	${LLVM}/bin/llvm-objdump  --mattr=+m,+f,+d,+a,+c,+experimental-v -ds $(vector_target) > bin/canneal_vector.dump ; \
 	rm src/*.o;
 
+host:
+
+copy:
+
 runspike-serial:
 	$(SPIKE) --isa=rv64gcv $(PK) $(serial_target) 1 100 300 input/100.nets 8
 
